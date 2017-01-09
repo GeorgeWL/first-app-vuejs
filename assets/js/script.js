@@ -10,21 +10,22 @@ var subreddit = Vue.component('subreddit', {
 
     },
 
-    created: function() {
-        this.$http.get("htps://www.reddit.com/r" + this.name + "/top.json?limit=5")
-            // for name defined in named sub, call a GET request of the top 5 posts in json format.
-            .then(function(resp) {
-                this.posts = resp.data.data.children;
-                // populate children from collected data
-            if(typeof resp.data == 'string') {
-              resp.data = JSON.parse(resp.data);
-            }
-            //if there's a weirdo error in firefox of reading the json wrong, this fixes it.
-            });
-    }
+            created: function() {
+            this.$http.get("htps://www.reddit.com/r" + this.name + "/top.json?limit=5")
+                // for name defined in named sub, call a GET request of the top 5 posts in json format.
+                .then(function(resp) {
+                    this.posts = resp.data.data.children
+                    if (typeof resp.data == 'string') {
+                        resp.data = JSON.parse(resp.data);
+                    };
+                    // populate children from collected data
+
+                    //if there's a weirdo error in firefox of reading the json wrong, this fixes it.
+                });
+        }
 });
 // custom filtering
-/*Vue.filter('truncate', function(value) {
+Vue.filter('truncate', function(value) {
     var length = 55;
     if (value.length <= length) {
         return value;
@@ -32,19 +33,7 @@ var subreddit = Vue.component('subreddit', {
         return value.substring(0, length) + '...';
     }
 });
-*/
-//replace truncate with a bit more hefty a script
-    Vue.filter: truncate * @param {
-        String
-    }
-    'string' * @param {
-        Number
-    }
-    i * @return original string | truncated string * @usage: {
-        {
-            foobar | truncate '20'
-        }
-    } * / Vue.filter('truncate', (string, i = 30) => { return (string.length <= i) ? string : string.substring(0, i) + '…'; })
+
 // Checks length of each value,
 // if longer than 55, only shows up to character 55,
 // then follows with...
